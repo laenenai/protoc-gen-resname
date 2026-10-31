@@ -1,0 +1,8 @@
+# protoc-gen-go output for the golden packages, so that every committed
+# testdata/golden/<scenario> is a buildable Go package (`mise run golden`).
+# The plugin's own files are written by `go test ./internal/... -update`.
+version: v2
+plugins:
+  - local: protoc-gen-go
+    out: ../golden
+    opt: [paths=source_relative]
