@@ -140,3 +140,5 @@ mise run fuzz    # 60 s of FuzzParseBookName
 ## Licence
 
 MIT — see [LICENSE](LICENSE).
+
+> **Moved.** As of 2026-10-31 this generator lives in `laenenai/contracts` as `protoc-gen-contracts` (`cmd/protoc-gen-contracts`, `internal/gen/`). This repository is archived at v0.1.0.
