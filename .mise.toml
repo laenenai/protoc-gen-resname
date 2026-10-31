@@ -10,17 +10,21 @@ buf = "1.65.0"
 [env]
 GOWORK = "off"
 
+# The committed golden output under testdata/golden is a set of real Go
+# packages; the go tool skips `testdata` in `./...`, so every task names
+# that tree explicitly.
+
 [tasks.build]
 description = "Build protoc-gen-resname into ./bin"
 run = "go build -o bin/protoc-gen-resname ./cmd/protoc-gen-resname"
 
 [tasks.test]
-description = "Go tests (golden scenarios, table tests on generated types, negative cases, determinism)"
-run = "go test ./..."
+description = "Go tests: golden scenarios, negative cases, determinism, and the table tests on the generated packages"
+run = "go test ./... ./testdata/golden/..."
 
 [tasks.vet]
-description = "go vet (also compiles the committed golden packages)"
-run = "go vet ./..."
+description = "go vet, including the committed golden packages"
+run = "go vet ./... ./testdata/golden/..."
 
 [tasks.lint]
 description = "gofmt and staticcheck"
@@ -28,22 +32,25 @@ run = """
 set -e
 unformatted="$(gofmt -l $(git ls-files '*.go'))"
 if [ -n "$unformatted" ]; then echo "gofmt: $unformatted"; exit 1; fi
-staticcheck ./...
+staticcheck ./... ./testdata/golden/...
 """
 
 [tasks.fuzz]
-description = "Run the parser fuzz test for 60 s"
-run = "go test ./testdata/golden/... -run '^$' -fuzz '^FuzzParseBookName$' -fuzztime 60s"
+description = "Run FuzzParseBookName on the generated package for 60 s"
+run = "go test ./testdata/golden/nested -run '^$' -fuzz '^FuzzParseBookName$' -fuzztime 60s"
 
 [tasks.golden]
-description = "Rebuild the buf images and regenerate the golden files"
+description = "Rebuild the buf image, the protoc-gen-go companions and the plugin's golden files"
 run = """
 set -e
-for d in testdata/proto/*/; do
-  s="$(basename "$d")"
-  (cd testdata/proto && buf build --path "$s" -o "$s/image.binpb")
-done
-go test ./internal/... -run '^TestGolden' -update
+cd testdata/proto
+buf lint
+buf build -o image.binpb
+buf generate --path single --path nested --path multi --path singleton --path external \
+  --path crosspkg --path childtype --path refids_names --path refids_all \
+  --path strict_segments --path nowildcards --path warn
+cd ../..
+go test ./internal/plugin -run '^TestGolden$' -update
 """
 
 [tasks.ci]
