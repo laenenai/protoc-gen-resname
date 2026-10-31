@@ -120,6 +120,14 @@ only API messages carry real resource names. Pass
 `resname_ref_fields=all` to generate an accessor for every referencing
 string field.
 
+Accessor names: `name` → `<Kind>Name()`, `parent` → `ParentName()`
+(`child_type` references return the parent's name type, or a
+`<Kind>ParentName` interface when several parents are possible). Because
+protoc-gen-go exports every field as a struct field, a `*_name` field gets
+its suffix replaced by the Kind (`destination_name` referencing Publisher →
+`DestinationPublisherName()`), or `<Kind>ResourceName()` when that would
+stutter. Repeated fields use the plural (`names` → `<Kind>Names()`).
+
 ## Development
 
 ```sh
