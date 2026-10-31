@@ -32,21 +32,21 @@ func TestParsePattern(t *testing.T) {
 
 func TestParsePatternErrors(t *testing.T) {
 	cases := map[string]string{
-		"":                                        `pattern "" is empty`,
-		"{publisher}/books/{book}":                `pattern "{publisher}/books/{book}": must start with a literal collection id`,
-		"publishers/{publisher}/{book}":           `pattern "publishers/{publisher}/{book}": segment 3 ({book}) breaks the literal/{variable} alternation`,
-		"publishers/books/{book}":                 `pattern "publishers/books/{book}": segment 2 (books) breaks the literal/{variable} alternation`,
-		"publishers":                              `pattern "publishers": has no variable`,
-		"Publishers/{publisher}":                  `pattern "Publishers/{publisher}": segment 1 (Publishers) is not a collection id ([a-z][a-zA-Z0-9]*)`,
-		"publishers/{Publisher}":                  `pattern "publishers/{Publisher}": segment 2 ({Publisher}) is not a variable ({snake_name})`,
+		"":                              `pattern "" is empty`,
+		"{publisher}/books/{book}":      `pattern "{publisher}/books/{book}": must start with a literal collection id`,
+		"publishers/{publisher}/{book}": `pattern "publishers/{publisher}/{book}": segment 3 ({book}) breaks the literal/{variable} alternation`,
+		"publishers/books/{book}":       `pattern "publishers/books/{book}": segment 2 (books) breaks the literal/{variable} alternation`,
+		"publishers":                    `pattern "publishers": has no variable`,
+		"Publishers/{publisher}":        `pattern "Publishers/{publisher}": segment 1 (Publishers) is not a collection id ([a-z][a-zA-Z0-9]*)`,
+		"publishers/{Publisher}":        `pattern "publishers/{Publisher}": segment 2 ({Publisher}) is not a variable ({snake_name})`,
 		"publishers/{publisher}/books/{publisher}": `pattern "publishers/{publisher}/books/{publisher}": variable {publisher} appears twice`,
-		"publishers//{publisher}":                 `pattern "publishers//{publisher}": segment 2 () breaks the literal/{variable} alternation`,
-		"/publishers/{publisher}":                 `pattern "/publishers/{publisher}": must start with a literal collection id`,
-		"publishers/{publisher}/":                 `pattern "publishers/{publisher}/": segment 3 () is not a collection id ([a-z][a-zA-Z0-9]*)`,
-		"publishers/{_publisher}":                 `pattern "publishers/{_publisher}": segment 2 ({_publisher}) is not a variable ({snake_name})`,
-		"publishers/{publisher_}":                 `pattern "publishers/{publisher_}": segment 2 ({publisher_}) is not a variable ({snake_name})`,
-		"publishers/{a__b}":                       `pattern "publishers/{a__b}": segment 2 ({a__b}) is not a variable ({snake_name})`,
-		"publishers/{}":                           `pattern "publishers/{}": segment 2 ({}) is not a variable ({snake_name})`,
+		"publishers//{publisher}":                  `pattern "publishers//{publisher}": segment 2 () breaks the literal/{variable} alternation`,
+		"/publishers/{publisher}":                  `pattern "/publishers/{publisher}": must start with a literal collection id`,
+		"publishers/{publisher}/":                  `pattern "publishers/{publisher}/": segment 3 () is not a collection id ([a-z][a-zA-Z0-9]*)`,
+		"publishers/{_publisher}":                  `pattern "publishers/{_publisher}": segment 2 ({_publisher}) is not a variable ({snake_name})`,
+		"publishers/{publisher_}":                  `pattern "publishers/{publisher_}": segment 2 ({publisher_}) is not a variable ({snake_name})`,
+		"publishers/{a__b}":                        `pattern "publishers/{a__b}": segment 2 ({a__b}) is not a variable ({snake_name})`,
+		"publishers/{}":                            `pattern "publishers/{}": segment 2 ({}) is not a variable ({snake_name})`,
 	}
 	for in, want := range cases {
 		_, err := parsePattern(in)
@@ -58,17 +58,17 @@ func TestParsePatternErrors(t *testing.T) {
 
 func TestParseType(t *testing.T) {
 	for in, want := range map[string]string{
-		"library.example.com/Book":                        "Book",
-		"cloudresourcemanager.googleapis.com/Project":     "Project",
-		"library.example.com/KeyRing":                     "KeyRing",
-		"library.example.com/book":                        "",
-		"Book":                                            "",
-		"/Book":                                           "",
-		"library.example.com/":                            "",
-		"library.example.com/Book/Page":                   "",
-		"library.example.com/Book_Page":                   "",
-		"":                                                "",
-		"library example.com/Book":                        "",
+		"library.example.com/Book":                    "Book",
+		"cloudresourcemanager.googleapis.com/Project": "Project",
+		"library.example.com/KeyRing":                 "KeyRing",
+		"library.example.com/book":                    "",
+		"Book":                                        "",
+		"/Book":                                       "",
+		"library.example.com/":                        "",
+		"library.example.com/Book/Page":               "",
+		"library.example.com/Book_Page":               "",
+		"":                                            "",
+		"library example.com/Book":                    "",
 	} {
 		got, err := parseType(in)
 		if want == "" {
