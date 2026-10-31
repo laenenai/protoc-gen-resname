@@ -1,0 +1,51 @@
+# Toolchain pinned for reproducible build, test and golden checks across
+# devs and CI. Run `mise install` on a fresh checkout, then `mise run ci`.
+
+[tools]
+go = "1.25.6"
+buf = "1.65.0"
+"go:google.golang.org/protobuf/cmd/protoc-gen-go" = "1.36.11"
+"go:honnef.co/go/tools/cmd/staticcheck" = "2025.1.1"
+
+[env]
+GOWORK = "off"
+
+[tasks.build]
+description = "Build protoc-gen-resname into ./bin"
+run = "go build -o bin/protoc-gen-resname ./cmd/protoc-gen-resname"
+
+[tasks.test]
+description = "Go tests (golden scenarios, table tests on generated types, negative cases, determinism)"
+run = "go test ./..."
+
+[tasks.vet]
+description = "go vet (also compiles the committed golden packages)"
+run = "go vet ./..."
+
+[tasks.lint]
+description = "gofmt and staticcheck"
+run = """
+set -e
+unformatted="$(gofmt -l $(git ls-files '*.go'))"
+if [ -n "$unformatted" ]; then echo "gofmt: $unformatted"; exit 1; fi
+staticcheck ./...
+"""
+
+[tasks.fuzz]
+description = "Run the parser fuzz test for 60 s"
+run = "go test ./testdata/golden/... -run '^$' -fuzz '^FuzzParseBookName$' -fuzztime 60s"
+
+[tasks.golden]
+description = "Rebuild the buf images and regenerate the golden files"
+run = """
+set -e
+for d in testdata/proto/*/; do
+  s="$(basename "$d")"
+  (cd testdata/proto && buf build --path "$s" -o "$s/image.binpb")
+done
+go test ./internal/... -run '^TestGolden' -update
+"""
+
+[tasks.ci]
+description = "Everything CI runs"
+depends = ["build", "vet", "lint", "test"]
