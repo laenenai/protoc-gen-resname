@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package resname.invalid.no_pattern;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/no_pattern;no_pattern";
+
+// Rule: a resource needs at least one pattern.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}

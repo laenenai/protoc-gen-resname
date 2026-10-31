@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package resname.invalid.variable;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/variable;variable";
+
+// Rule: a variable is {snake_name}.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "publishers/{Publisher}/books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package resname.warn.dupdef;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/warn/dupdef;dupdef";
+option (google.api.resource_definition) = {
+  type: "cloudresourcemanager.googleapis.com/Project"
+  pattern: "projects/{project}"
+};

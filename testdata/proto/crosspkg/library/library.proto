@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package resname.crosspkg.library;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/crosspkg/library;library";
+
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "projects/{project}/locations/{location}/books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}
+
+message ListBooksRequest {
+  string parent = 1 [(google.api.resource_reference).child_type = "library.example.com/Book"];
+}
+
+message GetLocationRequest {
+  string name = 1 [(google.api.resource_reference).type = "locations.example.com/Location"];
+}

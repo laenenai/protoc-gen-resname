@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package resname.invalid.dupvar;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/dupvar;dupvar";
+
+// Rule: variable names are unique within a pattern.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "publishers/{publisher}/books/{publisher}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}

@@ -1,0 +1,40 @@
+// Scenario 9: a domain-style file whose bare-id fields carry
+// resource_reference.type as type information only. Under
+// resname_ref_fields=names only `name`, `parent` and `*_name` fields get
+// accessors; under `all` every referencing string field does.
+syntax = "proto3";
+
+package resname.refids_names;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/refids_names;refids_names";
+
+message Order {
+  option (google.api.resource) = {
+    type: "shop.example.com/Order"
+    pattern: "orders/{order}"
+    singular: "order"
+    plural: "orders"
+  };
+
+  string name = 1;
+}
+
+message Customer {
+  option (google.api.resource) = {
+    type: "shop.example.com/Customer"
+    pattern: "customers/{customer}"
+    singular: "customer"
+    plural: "customers"
+  };
+
+  string name = 1;
+}
+
+message OrderPlaced {
+  string order_id = 1 [(google.api.resource_reference).type = "shop.example.com/Order"];
+  string customer_id = 2 [(google.api.resource_reference).type = "shop.example.com/Customer"];
+  string customer_name = 3 [(google.api.resource_reference).type = "shop.example.com/Customer"];
+  string shipping_label = 4 [(google.api.resource_reference).type = "shop.example.com/Order"];
+}

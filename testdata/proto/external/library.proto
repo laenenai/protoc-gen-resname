@@ -1,0 +1,28 @@
+// Scenario 5: a file-level resource_definition (no message), a resource whose
+// parent is that external definition, and a reference to it.
+syntax = "proto3";
+
+package resname.external;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/external;external";
+option (google.api.resource_definition) = {
+  type: "cloudresourcemanager.googleapis.com/Project"
+  pattern: "projects/{project}"
+};
+
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "projects/{project}/books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}
+
+message GetProjectRequest {
+  string name = 1 [(google.api.resource_reference).type = "cloudresourcemanager.googleapis.com/Project"];
+}

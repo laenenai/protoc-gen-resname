@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package resname.invalid.type_no_service;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/type_no_service;type_no_service";
+
+// Rule: type is {service}/{Kind}; the service part is required.
+message Book {
+  option (google.api.resource) = {
+    type: "Book"
+    pattern: "books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}

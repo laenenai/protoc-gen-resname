@@ -1,0 +1,17 @@
+// Warning (4.7): a duplicate resource_definition; the first by file order
+// wins, the others warn.
+syntax = "proto3";
+
+package resname.warn.dupdef;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/warn/dupdef;dupdef";
+option (google.api.resource_definition) = {
+  type: "cloudresourcemanager.googleapis.com/Project"
+  pattern: "projects/{project}"
+};
+
+message GetProjectRequest {
+  string name = 1 [(google.api.resource_reference).type = "cloudresourcemanager.googleapis.com/Project"];
+}

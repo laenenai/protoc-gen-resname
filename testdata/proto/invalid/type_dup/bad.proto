@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package resname.invalid.type_dup;
+
+import "google/api/resource.proto";
+import "invalid/type_dup_other/other.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/type_dup;type_dup";
+
+// Rule: type is unique across the whole request, including files that are
+// imported but not generated (../type_dup_other/other.proto).
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+  resname.invalid.type_dup_other.Other other = 2;
+}

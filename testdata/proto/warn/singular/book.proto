@@ -1,0 +1,19 @@
+// Warning: the last variable should match `singular`.
+syntax = "proto3";
+
+package resname.warn.singular;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/warn/singular;singular";
+
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "books/{volume}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}

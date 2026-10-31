@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package resname.invalid.child_top_level;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/child_top_level;child_top_level";
+
+// Rule (4.6): child_type must name a resource that has a parent.
+message Publisher {
+  option (google.api.resource) = {
+    type: "library.example.com/Publisher"
+    pattern: "publishers/{publisher}"
+    singular: "publisher"
+    plural: "publishers"
+  };
+
+  string name = 1;
+}
+
+message ListPublishersRequest {
+  string parent = 1 [(google.api.resource_reference).child_type = "library.example.com/Publisher"];
+}

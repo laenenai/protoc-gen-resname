@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package resname.invalid.leading_variable;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/leading_variable;leading_variable";
+
+// Rule: a pattern must start with a literal collection id.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "{publisher}/books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}

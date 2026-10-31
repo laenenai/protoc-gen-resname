@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package resname.invalid.type_format;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/type_format;type_format";
+
+// Rule: type is {service}/{Kind} with an UpperCamel Kind.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/book"
+    pattern: "books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}
