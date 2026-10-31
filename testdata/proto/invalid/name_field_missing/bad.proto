@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package resname.invalid.name_field_missing;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/name_field_missing;name_field_missing";
+
+// Rule: name_field (default "name") must exist on the message.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string title = 1;
+}

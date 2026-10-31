@@ -1,0 +1,24 @@
+// Scenario 5b: resources declared in one Go package and referenced from
+// another; both files are generated in the same request.
+syntax = "proto3";
+
+package resname.crosspkg.common;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/crosspkg/common;common";
+option (google.api.resource_definition) = {
+  type: "cloudresourcemanager.googleapis.com/Project"
+  pattern: "projects/{project}"
+};
+
+message Location {
+  option (google.api.resource) = {
+    type: "locations.example.com/Location"
+    pattern: "projects/{project}/locations/{location}"
+    singular: "location"
+    plural: "locations"
+  };
+
+  string name = 1;
+}

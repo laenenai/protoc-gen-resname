@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package resname.invalid.name_field_type;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/name_field_type;name_field_type";
+
+// Rule: name_field must be a string.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "books/{book}"
+    name_field: "id"
+    singular: "book"
+    plural: "books"
+  };
+
+  int64 id = 1;
+}

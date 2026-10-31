@@ -1,0 +1,20 @@
+// Imported by invalid/type_dup/bad.proto but never generated: its resource
+// type still counts for the request-wide uniqueness check.
+syntax = "proto3";
+
+package resname.invalid.type_dup_other;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/type_dup_other;other";
+
+message Other {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "others/{other}"
+    singular: "other"
+    plural: "others"
+  };
+
+  string name = 1;
+}

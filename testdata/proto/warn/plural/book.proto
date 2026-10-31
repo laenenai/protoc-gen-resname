@@ -1,0 +1,18 @@
+// Warning: `plural` is missing.
+syntax = "proto3";
+
+package resname.warn.plural;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/warn/plural;plural";
+
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "books/{book}"
+    singular: "book"
+  };
+
+  string name = 1;
+}

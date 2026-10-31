@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package resname.invalid.child_ref_unknown;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/child_ref_unknown;child_ref_unknown";
+
+// Rule (4.6): a child_type reference to an unknown type is an error.
+message ListBooksRequest {
+  string parent = 1 [(google.api.resource_reference).child_type = "library.example.com/Book"];
+}

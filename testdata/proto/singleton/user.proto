@@ -1,0 +1,34 @@
+// Scenario 4: a singleton resource (pattern ends in a literal).
+syntax = "proto3";
+
+package resname.singleton;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/singleton;singleton";
+
+message User {
+  option (google.api.resource) = {
+    type: "library.example.com/User"
+    pattern: "users/{user}"
+    singular: "user"
+    plural: "users"
+  };
+
+  string name = 1;
+}
+
+message UserConfig {
+  option (google.api.resource) = {
+    type: "library.example.com/UserConfig"
+    pattern: "users/{user}/config"
+    singular: "userConfig"
+    plural: "userConfigs"
+  };
+
+  string name = 1;
+}
+
+message GetUserConfigRequest {
+  string name = 1 [(google.api.resource_reference).type = "library.example.com/UserConfig"];
+}

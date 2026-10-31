@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package resname.invalid.ref_not_string;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/ref_not_string;ref_not_string";
+
+// Rule (4.6): a resource_reference on a non-string field is an error.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}
+
+message GetBookRequest {
+  int64 name = 1 [(google.api.resource_reference).type = "library.example.com/Book"];
+}

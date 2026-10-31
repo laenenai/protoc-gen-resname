@@ -1,0 +1,24 @@
+// Scenario 1: a single top-level pattern plus a reference to it.
+syntax = "proto3";
+
+package resname.single;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/single;single";
+
+message Publisher {
+  option (google.api.resource) = {
+    type: "library.example.com/Publisher"
+    pattern: "publishers/{publisher}"
+    singular: "publisher"
+    plural: "publishers"
+  };
+
+  string name = 1;
+  string display_name = 2;
+}
+
+message GetPublisherRequest {
+  string name = 1 [(google.api.resource_reference).type = "library.example.com/Publisher"];
+}

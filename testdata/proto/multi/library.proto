@@ -1,0 +1,46 @@
+// Scenario 3: a resource with several patterns; the first is canonical.
+syntax = "proto3";
+
+package resname.multi;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/multi;multi";
+
+message Publisher {
+  option (google.api.resource) = {
+    type: "library.example.com/Publisher"
+    pattern: "publishers/{publisher}"
+    singular: "publisher"
+    plural: "publishers"
+  };
+
+  string name = 1;
+}
+
+message Shelf {
+  option (google.api.resource) = {
+    type: "library.example.com/Shelf"
+    pattern: "shelves/{shelf}"
+    singular: "shelf"
+    plural: "shelves"
+  };
+
+  string name = 1;
+}
+
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "publishers/{publisher}/books/{book}"
+    pattern: "shelves/{shelf}/books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}
+
+message GetBookRequest {
+  string name = 1 [(google.api.resource_reference).type = "library.example.com/Book"];
+}

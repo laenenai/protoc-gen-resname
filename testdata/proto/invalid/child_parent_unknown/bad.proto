@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package resname.invalid.child_parent_unknown;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/child_parent_unknown;child_parent_unknown";
+
+// Rule (4.6): child_type needs the child's parent pattern to be a known resource.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "publishers/{publisher}/books/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}
+
+message ListBooksRequest {
+  string parent = 1 [(google.api.resource_reference).child_type = "library.example.com/Book"];
+}

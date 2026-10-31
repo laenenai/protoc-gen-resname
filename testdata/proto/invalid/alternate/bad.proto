@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package resname.invalid.alternate;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/alternate;alternate";
+
+// Rule: a pattern must alternate literal/{variable}.
+message Book {
+  option (google.api.resource) = {
+    type: "library.example.com/Book"
+    pattern: "publishers/{publisher}/{book}"
+    singular: "book"
+    plural: "books"
+  };
+
+  string name = 1;
+}

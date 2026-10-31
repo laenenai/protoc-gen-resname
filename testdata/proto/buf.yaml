@@ -1,0 +1,12 @@
+# Test inputs for protoc-gen-resname. One buf module; `mise run golden`
+# builds a single image from it and each test scenario selects its own
+# directory out of that image.
+version: v2
+deps:
+  - buf.build/googleapis/googleapis
+lint:
+  use:
+    - STANDARD
+  except:
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_VERSION_SUFFIX

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package resname.invalid.ref_unknown;
+
+import "google/api/resource.proto";
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/invalid/ref_unknown;ref_unknown";
+
+// Rule (4.6): a resource_reference to a type unknown in the request is an error.
+message GetBookRequest {
+  string name = 1 [(google.api.resource_reference).type = "library.example.com/Book"];
+}

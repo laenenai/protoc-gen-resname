@@ -1,0 +1,10 @@
+// Scenario 7: no resource annotations at all; the plugin emits nothing.
+syntax = "proto3";
+
+package resname.noannot;
+
+option go_package = "github.com/laenenai/protoc-gen-resname/testdata/golden/noannot;noannot";
+
+message Plain {
+  string name = 1;
+}
